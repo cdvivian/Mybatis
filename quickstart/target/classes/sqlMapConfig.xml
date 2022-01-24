@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--通过properties标签加载外部properties文件-->
+    <properties resource="druid.properties"></properties>
+
+    <!--自定义别名-->
+    <typeAliases>
+        <typeAlias type="com.cd.domain.User" alias="user"></typeAlias>
+    </typeAliases>
+
+    <!--配置分页助手插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="mysql"></property>
+        </plugin>
+    </plugins>
+
+    <!--数据源环境-->
+    <environments default="developement">
+        <environment id="developement">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${druid.driverClassName}"/>
+                <property name="url" value="${druid.url}"/>
+                <property name="username" value="${druid.username}"/>
+                <property name="password" value="${druid.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <!--加载映射文件-->
+    <mappers>
+        <mapper resource="com/cd/mapper/UserMapper.xml"></mapper>
+    </mappers>
+
+
+</configuration>

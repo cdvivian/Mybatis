@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cd.mapper.UserMapper">
+
+    <resultMap id="userMap" type="com.cd.domain.User">
+        <result column="id" property="id"></result>
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <result column="hobby" property="hobby"></result>
+
+        <collection property="orderList" ofType="com.cd.domain.Order">
+            <id property="id" column="oid"></id>
+            <result property="ordertime" column="ordertime"></result>
+            <result property="total" column="total"></result>
+        </collection>
+    </resultMap>
+    <select id="findAll" resultMap="userMap">
+    select *,o.id oid from user u left join `order` o on u.id=o.uid
+    </select>
+
+    <resultMap id="userRoleMap" type="user">
+        <id column="userId" property="id"></id>
+        <result column="username" property="username"></result>
+        <result column="ordertime" property="ordertime"></result>
+        <result column="hobby" property="hobby"></result>
+        <collection property="roleList" ofType="role">
+            <id column="roleId" property="id"></id>
+            <result column="roleName" property="roleName"></result>
+            <result column="roleDesc" property="roleDesc"></result>
+        </collection>
+    </resultMap>
+    <select id="findAllUserAndRole" resultMap="userRoleMap">
+        SELECT * FROM `user` u,sys_user_role ur,sys_role r WHERE u.id=ur.userId AND ur.roleId=r.id
+    </select>
+</mapper>
